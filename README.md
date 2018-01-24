@@ -5,9 +5,8 @@ Outputs ping-metrics of various cities
 Skill used to ask for ping-metrics between two cities.
 
 ## Examples
- * "Ping Amsterdam Barcelona"
- * "Ping Berlin Paris"
- * "Ping Amsterdam"
+ * "Check connection Amsterdam Barcelona"
+ * "Internet weather Berlin Paris"
 
 ## Credits
 Chris Rohrer
