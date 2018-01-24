@@ -1,16 +1,25 @@
 from adapt.intent import IntentBuilder
-from mycroft import MycroftSkill, intent_handler
+
+from mycroft.skills.core import MycroftSkill
+
+__author__ = 'chris-rohrer'
 
 
 class InternetWeatherSkill(MycroftSkill):
     def __init__(self):
-        MycroftSkill.__init__(self)
+        super(InternetWeatherSkill, self).__init__(name="InternetWeatherSkill")
 
-    @intent_handler(IntentBuilder().require('InternetWeather'))
-    def handle_internet_weather(self, message):
-        self.speak_dialog('internet.weather')
+    def initialize(self):
+        internet_weather_intent = IntentBuilder("InternetWeatherIntent"). \
+            require("InternetWeather").build()
+        self.register_intent(internet_weather_intent, self.handle_internet_weather_intent)
+
+    def handle_internet_weather_intent(self, message):
+        self.speak_dialog("internet.weather")
+
+    def stop(self):
+        pass
 
 
 def create_skill():
     return InternetWeatherSkill()
-
