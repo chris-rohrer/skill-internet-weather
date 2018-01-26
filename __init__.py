@@ -16,6 +16,7 @@ class InternetWeatherSkill(MycroftSkill):
 
     def handle_internet_weather_intent(self, message):
         self.speak_dialog("internet.weather")
+        self.speak(message.data.get('utterance'))
 
     def stop(self):
         pass
