@@ -1,5 +1,6 @@
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
+from geotext import GeoText
 
 import httplib
 import re
@@ -20,6 +21,8 @@ class InternetWeatherSkill(MycroftSkill):
         self.register_intent(internet_weather_intent, self.handle_internet_weather_intent)
 
     def handle_internet_weather_intent(self, message):
+        places = GeoText("London is a place")
+
         first_city = "Basel"
         second_city = "Amsterdam"
 
@@ -28,8 +31,8 @@ class InternetWeatherSkill(MycroftSkill):
         matches = p.findall(r.content)
         
         self.speak("The average response time from "+first_city+" to "+second_city+" was "+matches[0][0]+" at "+matches[0][4])
-        #self.speak_dialog("internet.weather")
-        #self.speak(message.data.get('utterance'))
+        self.speak("Debug: The received message was " + message.data.get('utterance'))
+        self.speak(places.cities.pop())
 
     def stop(self):
         pass
