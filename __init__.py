@@ -21,18 +21,26 @@ class InternetWeatherSkill(MycroftSkill):
         self.register_intent(internet_weather_intent, self.handle_internet_weather_intent)
 
     def handle_internet_weather_intent(self, message):
-        places = GeoText("London is a place")
+        places = GeoText(message.data.get('utterance'))
+        if places.cities.__len__() == 2:
 
-        first_city = "Basel"
-        second_city = "Amsterdam"
+            first_city = places.cities.pop(0)
+            second_city = places.cities.pop(0)
 
-        r = requests.get("https://wondernetwork.com/pings/"+first_city+"/"+second_city)
-        p = re.compile('\<tr\>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket\">([0-9:\- ]+)</td>')
-        matches = p.findall(r.content)
+            r = requests.get("https://wondernetwork.com/pings/"+first_city+"/"+second_city)
+            p = re.compile('\<tr\>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket is-bucket-0\"\>\W*<div class=\"td-item\"\>([0-9\.]+ms)\</div>\W*\</td>\W*\<td class=\"is-bucket\">([0-9:\- ]+)</td>')
+            matches = p.findall(r.content)
         
-        self.speak("The average response time from "+first_city+" to "+second_city+" was "+matches[0][0]+" at "+matches[0][4])
-        self.speak("Debug: The received message was " + message.data.get('utterance'))
-        self.speak(places.cities.pop())
+            self.speak("The average response time from "+first_city+" to "+second_city+" was "+matches[0][0]+" at "+matches[0][4])
+            self.speak("Debug: The received message was " + message.data.get('utterance'))
+
+        elif places.cities.__len__() < 2:
+            self.speak("Did you mention a city?")
+            self.speak("Debug: I heard the name of "+places.cities.__len__()+" cities.")
+
+        else:
+            self.speak("You mentioned "+places.cities.__len__()+" cities - I don't know what to do with that!")
+
 
     def stop(self):
         pass
