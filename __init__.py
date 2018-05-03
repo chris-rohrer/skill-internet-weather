@@ -36,7 +36,7 @@ class InternetWeatherSkill(MycroftSkill):
 
         elif places.cities.__len__() < 2:
             self.speak("Did you mention a city?")
-            self.speak("Debug: I heard the name of "+str(places.cities.__len__())+" cities.")
+            self.speak("I heard the name of "+str(places.cities.__len__())+" cities.")
 
         else:
             self.speak("You mentioned "+str(places.cities.__len__())+" cities - I don't know what to do with that!")
