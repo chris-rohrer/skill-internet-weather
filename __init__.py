@@ -21,7 +21,7 @@ class InternetWeatherSkill(MycroftSkill):
         self.register_intent(internet_weather_intent, self.handle_internet_weather_intent)
 
     def handle_internet_weather_intent(self, message):
-        print("Debug: You said " + message.data.get('utterance'))
+        self.speak("Debug: You said " + message.data.get('utterance'))
         places = GeoText(message.data.get('utterance'))
         if places.cities.__len__() == 2:
 
@@ -33,7 +33,7 @@ class InternetWeatherSkill(MycroftSkill):
             matches = p.findall(r.content)
         
             self.speak("The average response time from "+first_city+" to "+second_city+" was "+matches[0][0]+" at "+matches[0][4])
-            self.speak("Debug: The received message was " + message.data.get('utterance'))
+            #self.speak("Debug: The received message was " + message.data.get('utterance'))
 
         elif places.cities.__len__() < 2:
             self.speak("Did you mention a city?")
