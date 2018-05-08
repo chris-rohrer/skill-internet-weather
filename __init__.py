@@ -21,7 +21,6 @@ class InternetWeatherSkill(MycroftSkill):
         self.register_intent(internet_weather_intent, self.handle_internet_weather_intent)
 
     def handle_internet_weather_intent(self, message):
-
         places = GeoText(message.data.get('utterance'))
         if places.cities.__len__() == 2:
 
